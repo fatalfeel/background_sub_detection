@@ -1,4 +1,4 @@
-// You need to have opencv 2 and set the OpenCV_DIR environment variable
+//build on opencv 3.4.16 pass
 CPU_NUM=$(grep processor /proc/cpuinfo | awk '{field=$NF};END{print field+1}')
 echo "CPU number = "$CPU_NUM
 
