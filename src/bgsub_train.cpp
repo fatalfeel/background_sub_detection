@@ -25,6 +25,5 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#define BGSUB_LEARN
+#define BGSUB_TRAIN
 #include "bgsub.cpp"
-

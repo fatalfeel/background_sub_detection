@@ -46,11 +46,11 @@
 
 #include "utilities.h"
 
-#if !(defined(BGSUB_LEARN) || defined(BGSUB_DETECT))
-#error "BGSUB_LEARN or BGSUB_DETECT should be defined."
+#if !(defined(BGSUB_TRAIN) || defined(BGSUB_INFER))
+#error "BGSUB_TRAIN or BGSUB_INFER should be defined."
 #endif
-#if (defined(BGSUB_LEARN) && defined(BGSUB_DETECT))
-#error "Only one of BGSUB_LEARN or BGSUB_DETECT should be defined."
+#if (defined(BGSUB_TRAIN) && defined(BGSUB_INFER))
+#error "Only one of BGSUB_TRAIN or BGSUB_INFER should be defined."
 #endif
 
 int main(int argc, char* argv[])
@@ -58,7 +58,7 @@ int main(int argc, char* argv[])
     Torch::CmdLine cmd;
 
     cmd.addText("\n******************************************************************************");
-#ifdef BGSUB_LEARN
+#ifdef BGSUB_TRAIN
     cmd.addText("**   PROGRAM: Learning Background Model from a Set of Images or a Video     **");
 #else
     cmd.addText("**   PROGRAM: Foreground Detection from a Set of Images or a Video          **");
@@ -89,7 +89,7 @@ int main(int argc, char* argv[])
 
     cmd.addText("\nOptions:");
 
-#ifdef BGSUB_LEARN
+#ifdef BGSUB_TRAIN
     char indent_space[] = "                         ";
     cmd.addText("\n *Saved model type:");
     int bg_model_save_type = 2;
@@ -129,7 +129,7 @@ int main(int argc, char* argv[])
                       "the Gaussian sigma to remove noise on original images");
 
     cmd.addText("\n *Learning rates:");
-#ifdef BGSUB_DETECT
+#ifdef BGSUB_INFER
     bool disable_learning = false;
     cmd.addBCmdOption("-nolearn", &disable_learning, disable_learning,
                       "fully disable online learning of background [false]");
@@ -140,7 +140,7 @@ int main(int argc, char* argv[])
     real weight_updating_constant = 5.0;
     real frame_duration = 1.0 / 25.0;
 
-#ifdef BGSUB_LEARN
+#ifdef BGSUB_TRAIN
     mode_learn_rate_per_second = 0.5;
     weight_learn_rate_per_second = 0.5;
     init_mode_weight = 0.05;
@@ -216,7 +216,7 @@ int main(int argc, char* argv[])
     char* output_warped_mask_fn = NULL;
     cmd.addSCmdOption("-owm", &output_warped_mask_fn, "",
                       "the output warped mask file");
-#ifdef BGSUB_DETECT
+#ifdef BGSUB_INFER
     char* output_dir = NULL;
     bool export_org_img = false;
     bool export_fg_img = false;
@@ -267,7 +267,7 @@ int main(int argc, char* argv[])
     CHECK_STRING(cam_paras_fn);
     CHECK_STRING(updated_cam_paras_fn);
     CHECK_STRING(output_warped_mask_fn);
-#ifdef BGSUB_DETECT
+#ifdef BGSUB_INFER
     CHECK_STRING(output_dir);
     /* added by CC */
     CHECK_STRING(mask_img_fn);
@@ -324,7 +324,7 @@ int main(int argc, char* argv[])
     IplImage* fg_mask_img = cvCreateImage(img_size, org_img->depth, 1);
 
     IplImage* merged_img = NULL;
-#ifdef BGSUB_DETECT
+#ifdef BGSUB_INFER
     if (display_results || (output_dir && export_merged_img))
 #else
         if (display_results)
@@ -349,7 +349,7 @@ int main(int argc, char* argv[])
     /* set the foreground probability image pointer */
     BGS->SetForegroundProbImage(fg_prob_img);
 
-#ifdef BGSUB_DETECT
+#ifdef BGSUB_INFER
     BGS->m_disableLearning = disable_learning;
     if ( mask_img_fn ) {
             IplImage* mask_img = cvLoadImage(mask_img_fn, 0);
@@ -438,7 +438,7 @@ int main(int argc, char* argv[])
             cvWaitKey(10);
         }
 
-#ifdef BGSUB_DETECT
+#ifdef BGSUB_INFER
         if (output_dir) {
             if (export_org_img) {
                 char* file_name = get_file_name(output_dir, "org_img", "jpg", frame_idx);
@@ -495,7 +495,7 @@ int main(int argc, char* argv[])
         }
 #endif
     }
-#ifdef BGSUB_LEARN
+#ifdef BGSUB_TRAIN
     /* save the learned background model */
     printf("\nSaving the background model: %s\n", bg_model_fn);
     BGS->Save(bg_model_fn, bg_model_save_type);
