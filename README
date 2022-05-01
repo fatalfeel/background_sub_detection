@@ -14,6 +14,6 @@ build/bin/bgsub_learn OneStopNoEnter1cor.mpg model.out -sfn 4
 mkdir out
 build/bin/bgsub_detect OneStopNoEnter1cor.mpg model.out -od out -ofpi
 
-build/bin/human_detect  human_det_color_fp_234.yml OneStopNoEnter1cor.mpg  -bgm model.out -ddet -sfn 4
+build/bin/human_detect human_det_color_fp_234.yml OneStopNoEnter1cor.mpg -bgm model.out -ddet -sfn 4
 
 Refer to: https://www.idiap.ch/~odobez/human-detection/index.html
