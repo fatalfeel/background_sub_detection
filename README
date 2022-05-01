@@ -1,19 +1,24 @@
 //build on opencv 3.4.16 pass
+version 1.0  
 CPU_NUM=$(grep processor /proc/cpuinfo | awk '{field=$NF};END{print field+1}')
 echo "CPU number = "$CPU_NUM
 
+cd background_sub_detection
 mkdir build
 cd build
 
-cmake ../src -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DOpenCV_DIR=/opt/opencv/share/OpenCV
-cmake --build . --config Release -- -j$CPU_NUM VERBOSE=1
+cmake ../src -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DOpenCV_DIR=/opt/opencv/share/OpenCV  
+cmake --build . --config Release -- -j$CPU_NUM VERBOSE=1  
 
 cd ..
-build/bin/bgsub_learn OneStopNoEnter1cor.mpg model.out -sfn 4
+build/bin/bgsub_learn OneStopNoEnter1cor.mpg model.out -sfn 4  
 
-mkdir out
-build/bin/bgsub_detect OneStopNoEnter1cor.mpg model.out -od out -ofpi
+mkdir out  
+build/bin/bgsub_detect OneStopNoEnter1cor.mpg model.out -od out -ofpi  
+build/bin/human_detect human_det_color_fp_234.yml OneStopNoEnter1cor.mpg -bgm model.out -ddet -sfn 4  
 
-build/bin/human_detect human_det_color_fp_234.yml OneStopNoEnter1cor.mpg -bgm model.out -ddet -sfn 4
+version 2.0  
+cd background_sub_detection  
+make -j8  
 
 Refer to: https://www.idiap.ch/~odobez/human-detection/index.html
