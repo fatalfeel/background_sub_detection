@@ -21,6 +21,9 @@ build/bin/human_detect human_det_color_fp_234.yml OneStopNoEnter1cor.mpg -bgm mo
 
 version 2.0  
 support eclipse build
+support eclipse debug, modify Makefile to -O0 can debug in eclipse
+
+terminal console build: 
 cd background_sub_detection and pick a target to make
 (a) make background_sub_train -j8  
 (b) make background_sub_infer -j8  
