@@ -1,4 +1,6 @@
-//build on opencv 3.4.16 pass
+preinstall opencv 3.4.16
+https://fatalfeel.blogspot.com/2013/12/opencv-and-dlib-training.html
+
 version 1.0  
 CPU_NUM=$(grep processor /proc/cpuinfo | awk '{field=$NF};END{print field+1}')
 echo "CPU number = "$CPU_NUM
