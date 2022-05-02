@@ -1,4 +1,4 @@
-preinstall opencv 3.4.16
+preinstall opencv 3.4.16 to /opt/opencv
 https://fatalfeel.blogspot.com/2013/12/opencv-and-dlib-training.html
 
 version 1.0  
@@ -20,6 +20,7 @@ build/bin/bgsub_detect OneStopNoEnter1cor.mpg model.out -od out -ofpi
 build/bin/human_detect human_det_color_fp_234.yml OneStopNoEnter1cor.mpg -bgm model.out -ddet -sfn 4  
 
 version 2.0  
+support eclipse build
 cd background_sub_detection and pick a target to make
 (a) make background_sub_train -j8  
 (b) make background_sub_infer -j8  
